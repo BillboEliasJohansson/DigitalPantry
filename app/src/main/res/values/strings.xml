@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">DigitalPantry</string>
+    <string name="title_home">Stock</string>
+    <string name="title_dashboard">Scan Receipt</string>
+    <string name="title_notifications">Settings</string>
+</resources>
