@@ -36,7 +36,7 @@ public class ScanReceiptFragment extends Fragment {
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        textView = binding.textDashboard;
+        textView = binding.GroceryList;
 
         openCamera();
 
@@ -44,6 +44,7 @@ public class ScanReceiptFragment extends Fragment {
     }
     private void openCamera() {
 
+        // if camera permission not granted
         if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             // Request the permission
             requestPermissions(new String[]{android.Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST_CODE);
@@ -68,8 +69,10 @@ public class ScanReceiptFragment extends Fragment {
             // IMAGE IN Base64 ready for API CALL
             String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
+            // API call
             OpenAIChat.makeOpenAIRequest(textView, getContext(), "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", encoded);
 
+            // Feedback snackbar that progress is being made
             Snackbar.make(getActivity().findViewById(android.R.id.content),
                             "Connecting", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
