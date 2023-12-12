@@ -39,7 +39,6 @@ public class OpenAIChat {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, "Response: " + response.toString());
-                        textView.setText(response.toString());
 
                         try {
                             // Extract content from the response
@@ -62,7 +61,7 @@ public class OpenAIChat {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e(TAG, "Error: " + error.toString());
-
+                        textView.setText("Timeout Error");
                     }
                 }) {
             @Override
@@ -85,7 +84,7 @@ public class OpenAIChat {
             // Build JSON payload
             JSONObject contentObject = new JSONObject()
                     .put("type", "text")
-                    .put("text", "Bilden visar ett kvitto från en matbutik. Svara med en lista av varje produkt följt av antal på detta sätt :produkt:antal: skriv om produktnamnen till typen av produkt. Till exempel Gouda till Ost. Skånemejerier 1l lättmjölk till endast Mjölk");
+                    .put("text", "Bilden visar ett kvitto från en matbutik. Svara endast med en lista av varje produkt följt av antal på detta sätt :produkt:antal: skriv om produktnamnen till typen av produkt. Till exempel Gouda till Ost. Skånemejerier 1l lättmjölk till endast Mjölk");
 
             JSONObject imageUrlObject = new JSONObject()
                     .put("url", "data:image/jpeg;base64," + base64Image);
