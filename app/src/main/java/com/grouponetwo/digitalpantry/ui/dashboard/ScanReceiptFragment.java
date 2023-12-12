@@ -10,14 +10,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.grouponetwo.digitalpantry.R;
 import com.grouponetwo.digitalpantry.databinding.FragmentDashboardBinding;
 
 import java.io.ByteArrayOutputStream;
@@ -28,6 +33,9 @@ public class ScanReceiptFragment extends Fragment {
     private FragmentDashboardBinding binding;
     private TextView textView;
 
+    private Button accept;
+    private Button decline;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         ScanReceiptModel scanReceiptViewModel =
@@ -37,11 +45,37 @@ public class ScanReceiptFragment extends Fragment {
         View root = binding.getRoot();
 
         textView = binding.GroceryList;
+        accept = binding.AcceptButton;
+        decline = binding.DeclineButton;
+
+        accept.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String listOfItems = textView.getText().toString();
+                SSH.executeSSHcommand("python SaveItems.py " + listOfItems);
+                createSnackbar("Saving Items");
+
+                goHome(container);
+            }
+
+        });
+
+        decline.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                goHome(container);
+            }
+
+        });
 
         openCamera();
 
         return root;
     }
+
+    private static void goHome(ViewGroup container) {
+        NavController navController = Navigation.findNavController(container);
+        navController.navigate(R.id.navigation_home);
+    }
+
     private void openCamera() {
 
         // if camera permission not granted
@@ -73,12 +107,16 @@ public class ScanReceiptFragment extends Fragment {
             OpenAIChat.makeOpenAIRequest(textView, getContext(), "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", encoded);
 
             // Feedback snackbar that progress is being made
-            Snackbar.make(getActivity().findViewById(android.R.id.content),
-                            "Connecting", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+            createSnackbar("Connecting");
 
 
         }
+    }
+
+    private void createSnackbar(String text) {
+        Snackbar.make(getActivity().findViewById(android.R.id.content),
+                        text, Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 
     @Override
