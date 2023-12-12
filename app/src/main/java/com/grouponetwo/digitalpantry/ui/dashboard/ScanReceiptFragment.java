@@ -51,6 +51,8 @@ public class ScanReceiptFragment extends Fragment {
         accept.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String listOfItems = textView.getText().toString();
+                listOfItems = listOfItems.replace("\n", "§");
+                Log.d("Items", listOfItems);
                 SSH.executeSSHcommand("python SaveItems.py " + listOfItems);
                 createSnackbar("Saving Items");
 
