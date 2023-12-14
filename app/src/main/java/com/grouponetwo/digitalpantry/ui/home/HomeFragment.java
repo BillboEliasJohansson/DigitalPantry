@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.grouponetwo.digitalpantry.databinding.FragmentHomeBinding;
+import com.grouponetwo.digitalpantry.ui.dashboard.SSH;
 
 public class HomeFragment extends Fragment {
 
@@ -23,9 +24,10 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        TextView textView = binding.stockTextView;
 
-        final TextView textView = binding.textHome;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        SSH.executeSSHcommand("python PrintList.py", textView);
+
         return root;
     }
 

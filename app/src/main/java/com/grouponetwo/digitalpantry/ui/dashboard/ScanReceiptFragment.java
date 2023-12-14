@@ -32,7 +32,6 @@ public class ScanReceiptFragment extends Fragment {
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
     private FragmentDashboardBinding binding;
     private TextView textView;
-
     private Button accept;
     private Button decline;
 
