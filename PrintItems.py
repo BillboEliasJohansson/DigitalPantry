@@ -5,9 +5,12 @@ try:
         # Read the contents of the file
         file_contents = file.read()
 
-        # Print the contents of the file
-        print(file_contents)
+        # Remove ':' and '§', and print each pair on a new line
+        for pair in file_contents.split('§'):
+            key, value = pair.split(':')
+            print(f"{key}: {value}")
+
 except FileNotFoundError:
     print(f"File not found: {file_path}")
 except Exception as e:
-    print(f"An error occurred: {e}")
+    print("")
