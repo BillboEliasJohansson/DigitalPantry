@@ -1,7 +1,7 @@
 import sys
 
 file_path = 'pantry.txt'
-items_list = sys.argv[1]
+items_list = sys.argv[1:]
 
 pairs = items_list.split('§')
 
@@ -10,13 +10,9 @@ food_dict = {}
 
 for pair in pairs:
     # Split each pair into key and value using ':' as a separator
-    key, value_str = pair.split(':')
-
-    # Convert value to float and round to the nearest whole number
-    value = int(round(float(value_str)))
-
+    key, value = pair.split(':')
     # Assign key-value pair to the dictionary
-    food_dict[key] = value
+    food_dict[key] = int(value)
 
 try:
     with open(file_path, 'r') as file:
@@ -32,21 +28,13 @@ if file_contents:
 
     for pair in existing_pairs:
         # Split each pair into key and value using ':' as a separator
-        pair_parts = pair.split(':')
-
-        # Check if there are at least two parts (key and value)
-        if len(pair_parts) >= 2:
-            key, value = pair_parts[0], pair_parts[1]
-
-            # If the key already exists, add the new value to the existing value
-            if key in food_dict:
-                food_dict[key] += int(value)
-            else:
-                # Assign key-value pair to the dictionary
-                food_dict[key] = int(value)
-        else:
-            # Handle the case where there are not enough parts
-            print(f"Skipping invalid pair: {pair}")
+        key, value = pair.split(':')
+        # If the key already exists, subtract the new value from the existing value
+        if key in food_dict:
+            food_dict[key] -= int(value)
+            # If the result is less than or equal to 0, remove the pair
+            if food_dict[key] <= 0:
+                del food_dict[key]
 
 # Convert the dictionary to a list of pairs with '§' between each pair
 result_pairs = [f"{key}:{value}" for key, value in food_dict.items()]
@@ -55,7 +43,7 @@ result_pairs = [f"{key}:{value}" for key, value in food_dict.items()]
 result_string = '§'.join(result_pairs)
 print(result_string)
 
-# Open the file in append mode and write the updated dictionary
+# Open the file in write mode and write the updated dictionary
 with open(file_path, 'w') as file:
     # Write the result pairs with '§' between each pair
     file.write('§'.join(result_pairs))
