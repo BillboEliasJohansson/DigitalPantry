@@ -1,7 +1,7 @@
 import sys
 
 file_path = 'pantry.txt'
-items_list = sys.argv[1:]
+items_list = sys.argv[1]
 
 pairs = items_list.split('§')
 

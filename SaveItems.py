@@ -13,7 +13,7 @@ for pair in pairs:
     key, value_str = pair.split(':')
 
     # Convert value to float and round to the nearest whole number
-    value = int(round(float(value_str)))
+    value = int(ceil(float(value_str)))
 
     # Assign key-value pair to the dictionary
     food_dict[key] = value

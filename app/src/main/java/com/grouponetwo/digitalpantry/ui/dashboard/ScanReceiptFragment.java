@@ -37,8 +37,6 @@ public class ScanReceiptFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        ScanReceiptModel scanReceiptViewModel =
-                new ViewModelProvider(this).get(ScanReceiptModel.class);
 
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -50,7 +48,7 @@ public class ScanReceiptFragment extends Fragment {
         accept.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String listOfItems = textView.getText().toString();
-                listOfItems = listOfItems.replace("\n", "§").replace(" ", "").replace("kg", "");
+                listOfItems = listOfItems.replace("\n", "§").replace(" ", "").replace("kg", "").replace(",", ".");
                 Log.d("Items", listOfItems);
                 SSH.executeSSHcommand("python SaveItems.py " + listOfItems);
                 createSnackbar("Saving Items");
