@@ -13,7 +13,7 @@ for pair in pairs:
     key, value_str = pair.split(':')
 
     # Convert value to float and round to the nearest whole number
-    value = int(ceil(float(value_str)))
+    value = int(round(float(value_str)))
 
     # Assign key-value pair to the dictionary
     food_dict[key] = value
@@ -55,7 +55,7 @@ result_pairs = [f"{key}:{value}" for key, value in food_dict.items()]
 result_string = '§'.join(result_pairs)
 print(result_string)
 
-# Open the file in append mode and write the updated dictionary
+# Open the file in write mode and write the updated dictionary
 with open(file_path, 'w') as file:
     # Write the result pairs with '§' between each pair
     file.write('§'.join(result_pairs))
