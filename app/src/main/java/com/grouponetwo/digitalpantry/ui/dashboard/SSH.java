@@ -8,8 +8,6 @@ import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -25,9 +23,9 @@ public class SSH {
 
     public static void executeSSHcommand(String command, TextView textView) {
 
-        new AsyncTask<Integer, Void, String>() {
+        new AsyncTask<Integer, String, Void>() {
             @Override
-            protected String doInBackground(Integer... params) {
+            protected Void doInBackground(Integer... params) {
 
                 String output = "";
 
@@ -36,7 +34,7 @@ public class SSH {
                     com.jcraft.jsch.Session sess = jsch.getSession(USERNAME, IP_ADRESS, PORT);
                     sess.setPassword(PASSWORD);
                     sess.setConfig("StrictHostKeyChecking", "no");
-                    sess.setTimeout(10000);
+                    sess.setTimeout(Integer.MAX_VALUE);
                     sess.connect();
 
                     ChannelExec exec = (ChannelExec) sess.openChannel("exec");
@@ -48,14 +46,13 @@ public class SSH {
                     exec.connect();
 
                     // Read the command output from the InputStream
-                    StringBuilder outputBuffer = new StringBuilder();
                     byte[] tmp = new byte[1024];
 
                     while (true) {
                         while (in.available() > 0) {
                             int i = in.read(tmp, 0, 1024);
                             if (i < 0) break;
-                            outputBuffer.append(new String(tmp, 0, i));
+                            publishProgress(new String(tmp, 0, i));
                         }
                         if (exec.isClosed()) {
                             int exitStatus = exec.getExitStatus();
@@ -72,27 +69,22 @@ public class SSH {
                     exec.disconnect();
                     sess.disconnect();
 
-                    // Return the captured output
-                    output = outputBuffer.toString();
-                    if(textView!=null){
-                        textView.setText(output);
-                    }
-
                 } catch (JSchException | IOException e) {
                     Log.i("SSH", "Failed: " + e.getMessage());
                 }
 
-                return output;
+
+                return null;
             }
 
             @Override
-            protected void onPostExecute(String output) {
-                if (output != null) {
-                    Log.i("SSH", "Success. Output: " + output);
-                } else {
-                    Log.i("SSH", "Failed to capture output");
+            protected void onProgressUpdate(String... values) {
+                super.onProgressUpdate(values);
+                if (textView != null) {
+                    textView.setText(values[0]);
                 }
             }
+
         }.execute(1);
     }
 
