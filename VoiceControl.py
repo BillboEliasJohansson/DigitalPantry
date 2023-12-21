@@ -24,6 +24,7 @@ def remove_item(item, amount, file_contents):
             del food_dict[item]
 
     result_pairs = [f"{key}:{value}" for key, value in food_dict.items()]
+    print("removed " + item)
     return '§'.join(result_pairs)
 
 def add_item(item, amount, file_contents):
@@ -41,29 +42,32 @@ def add_item(item, amount, file_contents):
     item = item.capitalize()
 
     if item in food_dict:
-        food_dict[key] += int(amount)
+        food_dict[item] += int(amount)
     else:
         # Assign key-value pair to the dictionary
-        food_dict[key] = int(value)
+        food_dict[item] = int(amount)
 
     result_pairs = [f"{key}:{value}" for key, value in food_dict.items()]
+    print("Added " + item)
     return '§'.join(result_pairs)
 
 file_path = 'pantry.txt'
 freq = 44100
 duration = 5
-amountToRemove = "1"
+amount = "1"
 
 print("Recording now")
 recording = sd.rec(int(duration * freq), samplerate=freq, channels=2)
 sd.wait()
 print("Stopped recording")
 
-write("test2.wav", freq, recording)
-
-client = OpenAI()
-
-audio_file = open("test2.wav", "rb")
+write("VoiceCommand.wav", freq, recording)
+try:
+    client = OpenAI()
+except Exception as e:
+    print(e)
+    
+audio_file = open("VoiceCommand.wav", "rb")
 
 transcript = client.audio.transcriptions.create(
     model="whisper-1",
@@ -78,10 +82,23 @@ addKeywords = ["lägg till", "add"]
 
 print(result)
 
+numberCall = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "system", "content": "Svara endast med en siffra i nummerformat till exempel 1,2,3,4,5,6,7,8,9,10: svara annars med null om strängen inte innehåller en siffra i textform till exempel ett, två, tre, fyra, fem"},
+        {"role": "user", "content": "Vilken av dessa ord i strängen: " + result + ": är en siffra till exempel ett, två, tre, fyra, fem"}
+    ]
+)
+
+numberResponse = numberCall.choices[0].message.content
+print(numberResponse)
+
+if numberResponse != "null":
+    amount = numberResponse
 
 for word in removeKeywords:
     if word in result:
-        print(word.lower())
+        result = result.replace(word, "")
         try:
             with open(file_path, 'r') as file:
                 file_contents = file.read()
@@ -90,7 +107,7 @@ for word in removeKeywords:
             for item in file_contents_temp.split("§"):
                 key, value = item.split(":")
                 if key in result:
-                    file_contents = remove_item(key, amountToRemove, file_contents)
+                    file_contents = remove_item(key, amount, file_contents)
 
             with open(file_path, 'w') as file:
                 file.write(file_contents)
@@ -101,9 +118,11 @@ for word in removeKeywords:
             print(f"An error occurred: {e}")
         break
 
+found = False
+
 for word in addKeywords:
     if word in result:
-        print(word.lower())
+        result = result.replace(word, "")
         try:
             with open(file_path, 'r') as file:
                 file_contents = file.read()
@@ -112,7 +131,20 @@ for word in addKeywords:
             for item in file_contents_temp.split("§"):
                 key, value = item.split(":")
                 if key in result:
-                    file_contents = add_item(key, amountToRemove, file_contents)
+                    found = True
+                    file_contents = add_item(key, amount, file_contents)
+
+            if not found:
+                response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "Svara med endast ett ord eller ingenting"},
+                    {"role": "user", "content": "Vilket av dessa ord i strängen: " + result + ": är något du kan köpa på en matbutik"}
+                ]
+                )
+                content = response.choices[0].message.content
+                print(content)
+                file_contents = add_item(content, amount, file_contents)
 
             with open(file_path, 'w') as file:
                 file.write(file_contents)
