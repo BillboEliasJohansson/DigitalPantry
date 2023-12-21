@@ -4,6 +4,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
         TextView textView = binding.stockTextView;
         voice = binding.VoiceControl;
+        textView.setMovementMethod(new ScrollingMovementMethod());
 
         Snackbar.make(getActivity().findViewById(android.R.id.content),
                         "The Pantry is refreshing...", Snackbar.LENGTH_SHORT)
