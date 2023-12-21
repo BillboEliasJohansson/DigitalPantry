@@ -90,7 +90,7 @@ public class OpenAIChat {
             // Build JSON payload
             JSONObject contentObject = new JSONObject()
                     .put("type", "text")
-                    .put("text", "Bilden visar ett kvitto från en matbutik. Svara endast med en lista av varje produkt följt av antal på detta sätt produkt:antal skriv om produktnamnen till typen av produkt. Till exempel Gouda till Ost. Skånemejerier 1l lättmjölk till endast Mjölk");
+                    .put("text", "Bilden visar ett kvitto från en matbutik. Svara endast med en lista av varje produkt följt av antal på detta sätt produkt:antal skriv om produktnamnen till typen av produkt. Till exempel Gouda till Ost. Skånemejerier 1l lättmjölk till endast Mjölk, svara i singular");
 
             JSONObject imageUrlObject = new JSONObject()
                     .put("url", "data:image/jpeg;base64," + base64Image);
