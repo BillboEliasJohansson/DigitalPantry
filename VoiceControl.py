@@ -44,7 +44,7 @@ def add_item(item, amount, file_contents):
     if item in food_dict:
         food_dict[item] += int(amount)
     else:
-        # Assign key-value pair to the dictionary
+        # Assign new key-value pair to the dictionary
         food_dict[item] = int(amount)
 
     result_pairs = [f"{key}:{value}" for key, value in food_dict.items()]

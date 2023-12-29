@@ -1,4 +1,4 @@
-package com.grouponetwo.digitalpantry.ui.notifications;
+package com.grouponetwo.digitalpantry.ui.settings;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,11 +8,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.grouponetwo.digitalpantry.databinding.FragmentNotificationsBinding;
 
-public class NotificationsFragment extends Fragment {
+public class SettingsFragment extends Fragment {
 
     private FragmentNotificationsBinding binding;
 

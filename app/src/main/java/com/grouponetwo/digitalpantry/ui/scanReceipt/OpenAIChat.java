@@ -1,4 +1,4 @@
-package com.grouponetwo.digitalpantry.ui.dashboard;
+package com.grouponetwo.digitalpantry.ui.scanReceipt;
 
 import android.content.Context;
 import android.util.Log;

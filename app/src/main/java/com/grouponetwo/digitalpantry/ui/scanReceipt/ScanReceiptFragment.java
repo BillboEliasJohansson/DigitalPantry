@@ -1,4 +1,4 @@
-package com.grouponetwo.digitalpantry.ui.dashboard;
+package com.grouponetwo.digitalpantry.ui.scanReceipt;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,11 +16,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.grouponetwo.digitalpantry.R;
 import com.grouponetwo.digitalpantry.databinding.FragmentDashboardBinding;
@@ -31,7 +29,7 @@ public class ScanReceiptFragment extends Fragment {
     private static final int CAMERA_REQUEST = 1888;
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
     private FragmentDashboardBinding binding;
-    private TextView textView;
+    private TextView receiptText;
     private Button accept;
     private Button decline;
 
@@ -41,13 +39,13 @@ public class ScanReceiptFragment extends Fragment {
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        textView = binding.GroceryList;
+        receiptText = binding.GroceryList;
         accept = binding.AcceptButton;
         decline = binding.DeclineButton;
 
         accept.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String listOfItems = textView.getText().toString();
+                String listOfItems = receiptText.getText().toString();
                 listOfItems = listOfItems.replace("\n", "§").replace(" ", "").replace("kg", "").replace(",", ".");
                 Log.d("Items", listOfItems);
                 SSH.executeSSHcommand("python SaveItems.py " + listOfItems);
@@ -72,7 +70,7 @@ public class ScanReceiptFragment extends Fragment {
 
     private static void goHome(ViewGroup container) {
         NavController navController = Navigation.findNavController(container);
-        navController.navigate(R.id.navigation_home);
+        navController.navigate(R.id.navigation_stock);
     }
 
     private void openCamera() {
@@ -93,17 +91,17 @@ public class ScanReceiptFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST) {
 
-            // retrive image and encode to Base64
-            Bitmap bp = (Bitmap) data.getExtras().get("data");
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            bp.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-            byte[] byteArray = byteArrayOutputStream .toByteArray();
+            // retrieve image and encode to Base64
+            Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
+            ByteArrayOutputStream imageBaus = new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, imageBaus);
+            byte[] byteArray = imageBaus .toByteArray();
 
-            // IMAGE IN Base64 ready for API CALL
+            // Image in Base64 ready for API CALL
             String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
             // API call
-            OpenAIChat.makeOpenAIRequest(textView, getContext(), "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", encoded);
+            OpenAIChat.makeOpenAIRequest(receiptText, getContext(), "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", encoded);
 
             // Feedback snackbar that progress is being made
             createSnackbar("Connecting");
