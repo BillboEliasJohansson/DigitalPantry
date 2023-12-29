@@ -30,9 +30,9 @@ public class StockFragment extends Fragment {
 
         binding = FragmentStockBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        TextView textView = binding.stockTextView;
+        TextView stockTextView = binding.stockTextView;
         voice = binding.VoiceControl;
-        textView.setMovementMethod(new ScrollingMovementMethod());
+        stockTextView.setMovementMethod(new ScrollingMovementMethod());
 
         Snackbar.make(getActivity().findViewById(android.R.id.content),
                         "The Pantry is refreshing...", Snackbar.LENGTH_SHORT)
@@ -61,7 +61,7 @@ public class StockFragment extends Fragment {
             }
         });
 
-        SSH.executeSSHcommand("python PrintList.py", textView);
+        SSH.executeSSHcommand("python PrintList.py", stockTextView);
 
         return root;
     }
