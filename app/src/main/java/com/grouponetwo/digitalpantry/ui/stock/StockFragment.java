@@ -18,17 +18,17 @@ import androidx.navigation.Navigation;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.grouponetwo.digitalpantry.R;
-import com.grouponetwo.digitalpantry.databinding.FragmentHomeBinding;
+import com.grouponetwo.digitalpantry.databinding.FragmentStockBinding;
 import com.grouponetwo.digitalpantry.ui.scanReceipt.SSH;
 
 public class StockFragment extends Fragment {
 
-    private FragmentHomeBinding binding;
+    private FragmentStockBinding binding;
     private FloatingActionButton voice;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentStockBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         TextView textView = binding.stockTextView;
         voice = binding.VoiceControl;

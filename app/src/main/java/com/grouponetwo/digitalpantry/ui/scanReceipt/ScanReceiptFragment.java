@@ -21,14 +21,14 @@ import androidx.navigation.Navigation;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.grouponetwo.digitalpantry.R;
-import com.grouponetwo.digitalpantry.databinding.FragmentDashboardBinding;
+import com.grouponetwo.digitalpantry.databinding.FragmentScanReceiptBinding;
 
 import java.io.ByteArrayOutputStream;
 
 public class ScanReceiptFragment extends Fragment {
     private static final int CAMERA_REQUEST = 1888;
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
-    private FragmentDashboardBinding binding;
+    private FragmentScanReceiptBinding binding;
     private TextView receiptText;
     private Button accept;
     private Button decline;
@@ -36,7 +36,7 @@ public class ScanReceiptFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentScanReceiptBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         receiptText = binding.GroceryList;
