@@ -12,9 +12,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class SSH {
-    private static final String USERNAME = "DP";
-    private static final String PASSWORD = "DP123";
-    private static final String IP_ADRESS = "192.168.1.126";
+    private static final String USERNAME = "USERNAME";
+    private static final String PASSWORD = "PASSWORD";
+    private static final String IP_ADRESS = "IP_ADRESS";
     private static final int PORT = 22;
 
     public static void executeSSHcommand(String command) {

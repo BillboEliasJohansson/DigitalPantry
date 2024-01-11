@@ -40,7 +40,7 @@ public class StockFragment extends Fragment {
 
         voiceButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                SSH.executeSSHcommand("export OPENAI_API_KEY=\"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\"; python VoiceControl.py");
+                SSH.executeSSHcommand("export OPENAI_API_KEY=\"APIKEYPLACEAHOLDER\"; python VoiceControl.py");
                 Snackbar.make(getActivity().findViewById(android.R.id.content),
                                 "Please Wait...", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();

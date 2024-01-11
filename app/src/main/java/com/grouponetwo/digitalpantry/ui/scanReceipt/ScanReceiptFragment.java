@@ -100,7 +100,7 @@ public class ScanReceiptFragment extends Fragment {
             String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
             // API call
-            OpenAIChat.makeOpenAIRequest(receiptText, getContext(), "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", encoded);
+            OpenAIChat.makeOpenAIRequest(receiptText, getContext(), "APIKEYPLACEHOLDER", encoded);
 
             // Feedback snackbar that progress is being made
             createSnackbar("Connecting");
