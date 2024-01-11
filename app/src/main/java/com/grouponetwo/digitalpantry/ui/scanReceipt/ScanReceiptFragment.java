@@ -45,6 +45,7 @@ public class ScanReceiptFragment extends Fragment {
 
         accept.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                //Get the items from Grocery List, replace characters and save it to the raspberry PI
                 String listOfItems = receiptText.getText().toString();
                 listOfItems = listOfItems.replace("\n", "§").replace(" ", "").replace("kg", "").replace(",", ".");
                 Log.d("Items", listOfItems);
@@ -57,9 +58,7 @@ public class ScanReceiptFragment extends Fragment {
         });
 
         decline.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                goHome(container);
-            }
+            public void onClick(View v) { goHome(container); }
 
         });
 
@@ -95,7 +94,7 @@ public class ScanReceiptFragment extends Fragment {
             Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
             ByteArrayOutputStream imageBaus = new ByteArrayOutputStream();
             imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, imageBaus);
-            byte[] byteArray = imageBaus .toByteArray();
+            byte[] byteArray = imageBaus.toByteArray();
 
             // Image in Base64 ready for API CALL
             String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);

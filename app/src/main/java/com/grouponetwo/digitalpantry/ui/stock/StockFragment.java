@@ -24,21 +24,21 @@ import com.grouponetwo.digitalpantry.ui.scanReceipt.SSH;
 public class StockFragment extends Fragment {
 
     private FragmentStockBinding binding;
-    private FloatingActionButton voice;
+    private FloatingActionButton voiceButton;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentStockBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         TextView stockTextView = binding.stockTextView;
-        voice = binding.VoiceControl;
+        voiceButton = binding.VoiceControl;
         stockTextView.setMovementMethod(new ScrollingMovementMethod());
 
         Snackbar.make(getActivity().findViewById(android.R.id.content),
                         "The Pantry is refreshing...", Snackbar.LENGTH_SHORT)
                 .setAction("Action", null).show();
 
-        voice.setOnClickListener(new View.OnClickListener() {
+        voiceButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 SSH.executeSSHcommand("export OPENAI_API_KEY=\"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\"; python VoiceControl.py");
                 Snackbar.make(getActivity().findViewById(android.R.id.content),
@@ -47,7 +47,7 @@ public class StockFragment extends Fragment {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    voice.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+                    voiceButton.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
 
                     new Handler().postDelayed(new Runnable() {
                         @Override

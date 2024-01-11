@@ -3,10 +3,10 @@ import sys
 file_path = 'pantry.txt'
 items_list = sys.argv[1]
 
-# Store pairs in a String array, example: milk:1
+# stores paris in string array, example Milk:1
 pairs = items_list.split('§')
 
-# Create a dictionary from the pairs
+# Create a dictionary
 food_dict = {}
 
 for pair in pairs:
@@ -28,7 +28,6 @@ except FileNotFoundError:
 except Exception as e:
     print(f"An error occurred: {e}")
 
-# If file isn't empty
 if file_contents:
     existing_pairs = file_contents.split('§')
 
@@ -50,11 +49,12 @@ if file_contents:
             # Handle the case where there are not enough parts
             print(f"Skipping invalid pair: {pair}")
 
-# Convert the dictionary to a list of pairs with ':' between each pair
+# Convert the dictionary to a list of pairs with '§' between each pair
 result_pairs = [f"{key}:{value}" for key, value in food_dict.items()]
 
 # Join the pairs with '§' and print the result
 result_string = '§'.join(result_pairs)
+# print for debugging
 print(result_string)
 
 # Open the file in write mode and write the updated dictionary

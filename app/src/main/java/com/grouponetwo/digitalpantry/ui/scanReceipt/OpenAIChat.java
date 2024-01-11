@@ -20,11 +20,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OpenAIChat {
-    static String response2;
     private static final String OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
     private static final String TAG = "OpenAIChat";
 
-    public static String makeOpenAIRequest(TextView textView, Context context, String apiKey, String base64Image) {
+    public static void makeOpenAIRequest(TextView textView, Context context, String apiKey, String base64Image) {
         // Create headers
         String authorizationHeader = "Bearer " + apiKey;
 
@@ -82,7 +81,6 @@ public class OpenAIChat {
 
         // Add the request to the queue
         requestQueue.add(jsonObjectRequest);
-        return response2;
     }
 
     private static JSONObject buildJsonPayload(String apiKey, String base64Image) {

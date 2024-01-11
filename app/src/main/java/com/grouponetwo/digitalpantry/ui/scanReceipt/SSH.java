@@ -27,8 +27,6 @@ public class SSH {
             @Override
             protected Void doInBackground(Integer... params) {
 
-                String output = "";
-
                 try {
                     JSch jsch = new JSch();
                     com.jcraft.jsch.Session sess = jsch.getSession(USERNAME, IP_ADRESS, PORT);

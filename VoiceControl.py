@@ -24,6 +24,7 @@ def remove_item(item, amount, file_contents):
             del food_dict[item]
 
     result_pairs = [f"{key}:{value}" for key, value in food_dict.items()]
+    # print for debugging
     print("removed " + item)
     return '§'.join(result_pairs)
 
@@ -48,6 +49,7 @@ def add_item(item, amount, file_contents):
         food_dict[item] = int(amount)
 
     result_pairs = [f"{key}:{value}" for key, value in food_dict.items()]
+    # print for debugging
     print("Added " + item)
     return '§'.join(result_pairs)
 
@@ -80,6 +82,7 @@ result = json.dumps(transcript, ensure_ascii=False).lower()
 removeKeywords = ["ta bort", "remove"]
 addKeywords = ["lägg till", "add"]
 
+# print for debugging
 print(result)
 
 numberCall = client.chat.completions.create(
@@ -91,6 +94,7 @@ numberCall = client.chat.completions.create(
 )
 
 numberResponse = numberCall.choices[0].message.content
+# print for debugging
 print(numberResponse)
 
 if numberResponse != "null":
@@ -143,6 +147,7 @@ for word in addKeywords:
                 ]
                 )
                 content = response.choices[0].message.content
+                # print for debugging
                 print(content)
                 file_contents = add_item(content, amount, file_contents)
 
